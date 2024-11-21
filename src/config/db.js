@@ -3,13 +3,13 @@ const mongoose = require('mongoose');
 function connectionString(URI) {
   mongoose.set('strictQuery', false);
 
-  const mongooseOptions = {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  };
+  // const mongooseOptions = {
+  //   useNewUrlParser: true,
+  //   useUnifiedTopology: true
+  // };
 
   try {
-    mongoose.connect(URI, mongooseOptions);
+    mongoose.connect(URI);
   } catch (error) {
     console.error(error);
   }

@@ -1,6 +1,7 @@
+const mongoose = require('mongoose');
+const Joi = require('joi');
 const User = require('../model/user.model');
 const Log = require('../model/logmodel');
-const Joi = require('joi');
 
 const createUser = async (req, res) => {
   const { name, email, mobile, address } = req.body;
@@ -55,6 +56,7 @@ const createUser = async (req, res) => {
 // get all users
 const getUsers = async (req, res) => {
   try {
+    // only name,email
     const users = await User.find({});
 
     return res.status(200).json({
@@ -201,6 +203,33 @@ const getLogById = async (req, res) => {
   }
 };
 
+// get log by userId from log collection
+const getLogByUserId = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const logVar = await Log.find({
+      'userLog.userId': new mongoose.Types.ObjectId(id)
+    });
+
+    if (!logVar) {
+      return res.status(200).json({
+        success: false,
+        message: 'Log not found'
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      data: logVar,
+      message: 'Log found'
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send('Internal server error');
+  }
+};
+
 module.exports = {
   createUser,
   getUsers,
@@ -208,5 +237,6 @@ module.exports = {
   updateUser,
   deleteUser,
   getLogs,
-  getLogById
+  getLogById,
+  getLogByUserId
 };

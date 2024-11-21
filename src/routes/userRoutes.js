@@ -10,5 +10,6 @@ router.put('/get-user-by-id/:id', userController.updateUser);
 router.delete('/del-user-by-id/:id', userController.deleteUser);
 router.get('/get-all-log', userController.getLogs);
 router.get('/get-log-by-id/:id', userController.getLogById);
+router.get('/get-log-by-userId/:id', userController.getLogByUserId);
 
 module.exports = router;
