@@ -1,15 +1,10 @@
 const mongoose = require('mongoose');
 
-const userSchema = new mongoose.Schema(
+const CrudSchema = new mongoose.Schema(
   {
     name: {
       type: String,
       required: true
-    },
-    roleId:{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'roles',
-      default: null
     },
     email: {
       type: String,
@@ -22,14 +17,11 @@ const userSchema = new mongoose.Schema(
     },
     address: {
       type: String
-    },
-    password: {
-      type: String,
-    },
+    }
   },
   {
     timestamps: true
   }
 );
 
-module.exports = mongoose.model('users', userSchema);
+module.exports = mongoose.model('cruds', CrudSchema);
