@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const aggregatePaginate = require('mongoose-aggregate-paginate-v2');
 
 const userSchema = new mongoose.Schema(
   {
@@ -6,7 +7,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true
     },
-    roleId:{
+    roleId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'roles',
       default: null
@@ -24,12 +25,14 @@ const userSchema = new mongoose.Schema(
       type: String
     },
     password: {
-      type: String,
-    },
+      type: String
+    }
   },
   {
     timestamps: true
   }
 );
+
+userSchema.plugin(aggregatePaginate);
 
 module.exports = mongoose.model('users', userSchema);
