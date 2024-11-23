@@ -1,17 +1,13 @@
-const JWT = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
+const JWT = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 const generateToken = (payload) => {
   try {
-    return (
-      JWT.sign(payload, String(process.env.JWT_SECRET)),
-      {
-        algorithm: "HS256",
-        expiresIn: "1h",
-      }
-    );
+    return JWT.sign(payload, String(process.env.JWT_SECRET), {
+      algorithm: 'HS256'
+    });
   } catch (e) {
-    throw new Error("Invalid signature");
+    throw new Error('Invalid signature');
   }
 };
 
@@ -21,7 +17,7 @@ const verifyToken = (token) => {
   try {
     return JWT.verify(token, String(process.env.JWT_SECRET));
   } catch (e) {
-    throw new Error("Invalid token");
+    throw new Error('Invalid token');
   }
 };
 
@@ -39,5 +35,5 @@ module.exports = {
   generateToken,
   verifyToken,
   hash,
-  compare,
+  compare
 };
