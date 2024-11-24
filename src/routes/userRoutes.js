@@ -7,5 +7,7 @@ const router = express.Router();
 
 router.get('/get-user', userController.getUser);
 router.get('/get-all-user', userController.getAllUser);
+router.post('/create-user-with-houses', userController.createUserWithHouses);
 
 module.exports = router;
+  

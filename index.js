@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 connectionString(process.env.MONGO_URI);
 app.use('/api', routers);
 
-app.use('/', (req, res) => {
+app.use('/checker', (req, res) => {
   res.status(200).send('Server is up and running');
 });
 
