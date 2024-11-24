@@ -1,6 +1,6 @@
 const User = require('../model/user.model');
 const { generateToken, hash, compare } = require('../utils/jwt');
-
+const {nodemailer}=require('../utils/nodemailer');
 // reagister user from the database
 
 const register = async (req, res) => {
@@ -65,6 +65,9 @@ const login = async (req, res) => {
     });
   }
 };
+
+// 3.Send otp using nodemailer
+
 
 module.exports = {
   register,
