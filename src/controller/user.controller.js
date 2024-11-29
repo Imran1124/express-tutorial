@@ -6,12 +6,12 @@ const { hash } = require('../utils/jwt');
 // 2.get all user
 // 3.create user with houses
 
-
-
 // 1.get user
 const getUser = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select("name email address roleId")
+    const user = await User.findById(req.user.id).select(
+      'name email address roleId'
+    );
     if (!user) return res.status(200).json({ message: 'User not found' });
 
     res.status(200).json({
@@ -27,22 +27,22 @@ const getUser = async (req, res) => {
   }
 };
 
-// 2.get all user 
+// 2.get all user
 const getAllUser = async (req, res) => {
   const { page, limit, q } = req.query;
   const options = {
     page: parseInt(page),
-    limit: parseInt(limit),
-
+    limit: parseInt(limit)
   };
-  const query = [{
-    $sort: {
-      createdAt: -1
+  const query = [
+    {
+      $sort: {
+        createdAt: -1
+      }
     }
-
-  }]
+  ];
   if (q) {
-    query.push({ $match: { name: new RegExp(q, 'i') } })
+    query.push({ $match: { name: new RegExp(q, 'i') } });
   }
 
   try {
@@ -65,11 +65,10 @@ const getAllUser = async (req, res) => {
           address: 1,
           houses: 1
         }
-      },
+      }
+    ]);
 
-    ])
-
-    const getAllUserData = await User.aggregatePaginate(userData, options)
+    const getAllUserData = await User.aggregatePaginate(userData, options);
 
     return res.status(200).json({
       message: 'Users fetched successfully',
@@ -80,22 +79,22 @@ const getAllUser = async (req, res) => {
       limit: getAllUserData.limit,
       succes: true
     });
-
   } catch (err) {
     console.error(err);
-    return res.status(500).json({ message: 'Server Error' })
+    return res.status(500).json({ message: 'Server Error' });
   }
-
-}
+};
 
 // 3.create user with houses
 const createUserWithHouses = async (req, res) => {
-  const { name, email, address, password,mobile, houses } = req.body;
+  const { name, email, address, password, mobile, houses } = req.body;
 
   try {
     const userExist = await User.findOne({ email: email });
     if (userExist) {
-      return res.status(200).json({ message: 'User already exist', success: false });
+      return res
+        .status(200)
+        .json({ message: 'User already exist', success: false });
     }
     const hashedPassword = await hash(password);
     const user = new User({
@@ -108,7 +107,7 @@ const createUserWithHouses = async (req, res) => {
     const createdUser = await user.save();
 
     if (createdUser) {
-      const housesArray = houses.map(item => ({
+      const housesArray = houses.map((item) => ({
         userId: createdUser._id,
         houseName: item.houseName,
         houseType: item.houseType,
@@ -125,14 +124,14 @@ const createUserWithHouses = async (req, res) => {
     return res.status(200).json({
       message: 'User not created',
       success: false
-    })
-
-
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server Error' });
   }
 };
+
+//
 
 module.exports = {
   getUser,
