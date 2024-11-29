@@ -17,4 +17,4 @@ const categorySchema = new mongoose.Schema(
   }
 );
 categorySchema.plugin(aggregatePaginate);
-module.exports = mongoose.model('tbl_categoty_mstr', categorySchema);
+module.exports = mongoose.model('tbl_category_mstrs', categorySchema);
