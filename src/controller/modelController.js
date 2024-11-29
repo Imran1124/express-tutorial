@@ -1,7 +1,8 @@
 const Model = require('../model/modelMaster.model');
 
 
-// create house
+
+// ════════════════════════════║  API TO Create Model ║═════════════════════════════════// 
 const CreateModel = async (req, res) => {
   const {modelName,  categoryId } = req.body;
 
@@ -25,8 +26,8 @@ const CreateModel = async (req, res) => {
     });
   }
 };
+// ════════════════════════════║  API TO Get All Model data ║═════════════════════════════════// 
 
-// get all houses with user
 const GetAllModel = async (req, res) => {
   const { page = 1, limit = 10, q } = req.query;
   const options = { page, limit };
