@@ -5,6 +5,7 @@ const authRoutes = require('./authRoutes');
 const crudRoutes = require('./crudroutes');
 const userRoutes = require('./userRoutes');
 const houseRouter = require('./houseRoutes');
+const categoryRouter = require('./categoryRoutes');
 
 const router = express.Router({ mergeParams: true });
 
@@ -14,5 +15,7 @@ router.use(_middleware);
 router.use('/user', userRoutes);
 router.use('/crud', crudRoutes);
 router.use('/house', houseRouter);
+router.use('/house', houseRouter);
+router.use('/category', categoryRouter);
 
 module.exports = router;
