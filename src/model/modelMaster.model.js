@@ -5,7 +5,7 @@ const ModelSchema = new mongoose.Schema(
   {
     categoryId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'tbl_category_mstr',
+      ref: 'tbl_category_mstrs',
       path: '_id',
     },
     modelName: {

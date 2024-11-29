@@ -59,7 +59,7 @@ const GetAllModel = async (req, res) => {
     const aggregate = Model.aggregate([
       {
         $lookup: {
-          from: 'tbl_category_mstr',
+          from: 'tbl_category_mstrs', 
           localField: 'categoryId',
           foreignField: '_id',
           as: 'category'
