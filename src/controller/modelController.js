@@ -1,10 +1,8 @@
 const Model = require('../model/modelMaster.model');
 
-
-
-// ════════════════════════════║  API TO Create Model ║═════════════════════════════════// 
+// ════════════════════════════║  API TO Create Model ║═════════════════════════════════//
 const CreateModel = async (req, res) => {
-  const {modelName,  categoryId } = req.body;
+  const { modelName, categoryId } = req.body;
 
   try {
     const newModel = new Model({
@@ -26,7 +24,7 @@ const CreateModel = async (req, res) => {
     });
   }
 };
-// ════════════════════════════║  API TO Get All Model data ║═════════════════════════════════// 
+// ════════════════════════════║  API TO Get All Model data ║═════════════════════════════════//
 
 const GetAllModel = async (req, res) => {
   const { page = 1, limit = 10, q } = req.query;
@@ -50,28 +48,36 @@ const GetAllModel = async (req, res) => {
         $match: {
           $or: [
             { modelName: { $regex: new RegExp(q, 'i') } },
-            { categoryId: { $regex: new RegExp(q, 'i') } },
+            { categoryId: { $regex: new RegExp(q, 'i') } }
           ]
         }
       });
     }
 
     const aggregate = Model.aggregate([
+      ...query,
       {
         $lookup: {
-          from: 'tbl_category_mstrs', 
+          from: 'tbl_category_mstrs',
           localField: 'categoryId',
           foreignField: '_id',
           as: 'category'
         }
       },
-     ...query,
-     {
-      $unwind: {
-        path: '$category',
-        preserveNullAndEmptyArrays: true
+      {
+        $lookup: {
+          from: 'tbl_brand_mstrs',
+          localField: 'brandId',
+          foreignField: '_id',
+          as: 'brand'
+        }
       }
-    },
+      // {
+      //   $unwind: {
+      //     path: '$category',
+      //     preserveNullAndEmptyArrays: true
+      //   }
+      // }
     ]);
     const models = await Model.aggregatePaginate(aggregate, options);
 
@@ -95,7 +101,7 @@ const GetAllModel = async (req, res) => {
   }
 };
 
-// ════════════════════════════║  API TO Get Model By Id ║═════════════════════════════════// 
+// ════════════════════════════║  API TO Get Model By Id ║═════════════════════════════════//
 
 const GetModelById = async (req, res) => {
   const { id } = req.params;
@@ -123,12 +129,10 @@ const GetModelById = async (req, res) => {
   }
 };
 
-// ════════════════════════════║  API TO Update Model By Id ║═════════════════════════════════// 
+// ════════════════════════════║  API TO Update Model By Id ║═════════════════════════════════//
 
- const UpdateModel = async (req, res) => {
-  const {
-    modelName,
-    categoryId } = req.body;
+const UpdateModel = async (req, res) => {
+  const { modelName, categoryId } = req.body;
   const { id } = req.params;
 
   try {
@@ -158,9 +162,9 @@ const GetModelById = async (req, res) => {
   }
 };
 
-// ════════════════════════════║  API TO Delete Model By Id ║═════════════════════════════════// 
+// ════════════════════════════║  API TO Delete Model By Id ║═════════════════════════════════//
 
- const DeleteModel = async (req, res) => {
+const DeleteModel = async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -187,9 +191,9 @@ const GetModelById = async (req, res) => {
   }
 };
 
-// ════════════════════════════║  API TO Update Model Status By Id ║═════════════════════════════════// 
+// ════════════════════════════║  API TO Update Model Status By Id ║═════════════════════════════════//
 
- const UpdateModelStatus = async (req, res) => {
+const UpdateModelStatus = async (req, res) => {
   const { id } = req.params;
   const status = await Model.findOne({ _id: id });
   try {
@@ -210,7 +214,10 @@ const GetModelById = async (req, res) => {
     }
     return res.status(200).json({
       success: true,
-      message: modelDetails?.status == 1 ? 'Model is Activated' : 'Model is Deactivated',
+      message:
+        modelDetails?.status == 1
+          ? 'Model is Activated'
+          : 'Model is Deactivated',
       data: modelDetails
     });
   } catch (error) {
@@ -219,7 +226,7 @@ const GetModelById = async (req, res) => {
       message: error
     });
   }
-}
+};
 
 module.exports = {
   CreateModel,

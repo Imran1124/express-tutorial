@@ -1,18 +1,13 @@
 const mongoose = require('mongoose');
 const aggregatePaginate = require('mongoose-aggregate-paginate-v2');
-
-const ModelSchema = new mongoose.Schema(
+const brandSchema = new mongoose.Schema(
   {
     categoryId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'tbl_category_mstrs',
-      path: '_id'
+      required: true
     },
-    brandId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'tbl_brand_mstrs'
-    },
-    modelName: {
+    brandName: {
       type: String,
       required: true
     },
@@ -25,7 +20,5 @@ const ModelSchema = new mongoose.Schema(
     timestamps: true
   }
 );
-
-ModelSchema.plugin(aggregatePaginate);
-
-module.exports = mongoose.model('tbl_model_mstrs', ModelSchema);
+brandSchema.plugin(aggregatePaginate);
+module.exports = mongoose.model('tbl_brand_mstrs', brandSchema);
