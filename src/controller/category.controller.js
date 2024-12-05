@@ -29,6 +29,9 @@ const createCategory = async (req, res) => {
     return res.status(201).json({
       success: true,
       data: result,
+      // message: "Category created successfully",
+      // message with category name
+      message: `Category ${categoryVar.categoryName} created successfully`,
     });
   } catch (err) {
     // Handle unexpected errors

@@ -12,9 +12,10 @@ const getUser = async (req, res) => {
     const user = await User.findById(req.user.id).select(
       'name email address roleId'
     );
-    if (!user) return res.status(200).json({ message: 'User not found' });
+    if (!user) return res.status(200).json({ message: 'User not found',success: false});
 
     res.status(200).json({
+      success:true,
       message: 'User found',
       user,
       staticData: req.user.staticData
@@ -22,6 +23,7 @@ const getUser = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({
+      success: false,
       message: 'Server Error'
     });
   }
