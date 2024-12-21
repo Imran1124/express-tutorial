@@ -10,7 +10,7 @@ const mailer = async (to, text, subject, html) => {
   });
 
   let info = await transporter.sendMail({
-    from: 'mernstack38@gmail.com', // sender address
+    from: 'chandankumar6299068@gmail.com', // sender address
     to, // list of receivers
     subject, // Subject line
     text, // plain text body
